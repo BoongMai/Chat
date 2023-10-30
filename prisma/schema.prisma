@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum MenberRole {
+enum MemberRole {
   ADMIN
   MODERATOR
   GUEST
@@ -49,14 +49,14 @@ model Server {
   updatedAt DateTime @updatedAt
 
   members Member[]
-  chanels Channel[]
+  channels Channel[]
 
   @@index([profileId])
 }
 
 model Member {
   id   String     @id @default(uuid())
-  role MenberRole @default(GUEST)
+  role MemberRole @default(GUEST)
 
   profileId String
   profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)

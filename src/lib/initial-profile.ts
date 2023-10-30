@@ -26,7 +26,6 @@ export const initialProfile = async () => {
     })
 
     if(profile) {
-        console.log('profile: ', profile);
         return profile
     }
 
@@ -38,9 +37,6 @@ export const initialProfile = async () => {
             email: user.emailAddresses[0].emailAddress
         }
     })
-
-    console.log('new profile: ' ,newProfile);
-    
 
     return newProfile
 }
