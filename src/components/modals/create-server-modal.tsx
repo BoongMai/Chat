@@ -1,18 +1,19 @@
-'use client';
+"use client";
 
-import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 
-import axios from 'axios';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
-  DialogTitle,
-  DialogHeader,
   DialogDescription,
   DialogFooter,
+  DialogHeader,
+  DialogTitle,
 } from '@/components/ui/dialog';
+import FileUpload from '@/components/ui/file-upload';
 import {
   Form,
   FormControl,
@@ -22,17 +23,15 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { useEffect, useState } from 'react';
-import FileUpload from '@/components/ui/file-upload';
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { useModal } from '@/hooks/use-modal-store';
 
-export const InitialModal = () => {
+export const CreateServerModal = () => {
+  const { isOpen, onClose, type } = useModal();
   const router = useRouter();
-  const [isMounted, setIsMounted] = useState(false);
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+
+  const isModalOpen = isOpen && type === 'createServer';
 
   const formSchema = z.object({
     name: z.string().min(1, { message: 'Server name is required.' }),
@@ -50,23 +49,23 @@ export const InitialModal = () => {
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log('values: ', values);
     try {
       await axios.post('/api/servers', values);
       form.reset();
       router.refresh();
-      window.location.reload();
+      onClose()
     } catch (error) {
       console.log('error: ', error);
     }
   };
 
-  if (!isMounted) {
-    return null;
-  }
+  const handleCloseModal = () => {
+    form.reset();
+    onClose();
+  };
 
   return (
-    <Dialog open>
+    <Dialog open={isModalOpen} onOpenChange={handleCloseModal}>
       <DialogContent className='bg-white text-black p-0 overflow-hidden'>
         <DialogHeader className='pt-8 px-6'>
           <DialogTitle className='text-2xl text-center font-bold'>

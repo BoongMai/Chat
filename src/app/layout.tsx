@@ -1,3 +1,4 @@
+import { ModalProvider } from "@/components/providers/modal-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { cn } from "@/lib/utils";
 import '@/styles/globals.css';
@@ -26,6 +27,7 @@ export default function RootLayout({
             storageKey="app-theme"
           >
             {children}
+            <ModalProvider/>
           </ThemeProvider>
         </body>
       </html>
