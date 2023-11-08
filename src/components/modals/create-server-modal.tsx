@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -53,7 +53,7 @@ export const CreateServerModal = () => {
       await axios.post('/api/servers', values);
       form.reset();
       router.refresh();
-      onClose()
+      onClose();
     } catch (error) {
       console.log('error: ', error);
     }
